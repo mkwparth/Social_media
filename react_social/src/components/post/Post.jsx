@@ -14,13 +14,13 @@ export default function Post({ post }) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const { user: currentUser } = useContext(AuthContext);
 
-    useEffect(()=>{
+    useEffect(() => {
         setIsLike(post.likes.includes(currentUser._id))
-    },[post.likes,currentUser._id]);
+    }, [currentUser._id, post.likes]);
 
     const likehandler = () => {
         try {
-            axios.put("http://localhost:8800/api/posts/" + post._id + "/likes",{userId:currentUser._id} );
+            axios.put("http://localhost:8800/api/posts/" + post._id + "/likes", { userId: currentUser._id });
 
         } catch (err) {
             console.log(err);
@@ -48,7 +48,6 @@ export default function Post({ post }) {
                     <div className="postTopLeft">
                         <Link to={`/profile/${user.username}`}>
                             <img src={user.profilePicture ? PF + user.profilePicture : PF + "person/noavtar.png"} className="postProfileImg" />
-
                         </Link>
                         <span className="postUserName">{user.username}</span>
                         <span className="postDate">{format(post.createdAt)}</span>
@@ -61,7 +60,7 @@ export default function Post({ post }) {
                     <span className="postText">
                         {post?.desc}
                     </span>
-                    <img src={PF + post.img} className="postImg" />
+                    {post.img && <img src={PF + post.img} className="postImg" />}
 
                 </div>
                 <div className="postBottom">

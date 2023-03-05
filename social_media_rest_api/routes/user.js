@@ -2,6 +2,24 @@ const router = require("express").Router();
 const User = require("../models/User")
 
 const bcrypt = require("bcrypt");
+
+
+// fetch all user
+router.get("/fetchalluser", async (req,res)=>{
+    // User.find().then((err,data)=>{
+    //     if(!err){
+    //         res.status(200).json(data);
+    //     }else{
+    //         console.log(err);
+    //     }
+    // })
+    
+    const fetchall_data = await User.find();
+    res.status(200).json(fetchall_data);
+})
+
+
+
 // update User
 router.put("/:id", async (req, res) => {
     if (req.body.userId === req.params.id || req.body.isAdmin) {
@@ -89,8 +107,8 @@ router.put("/:id/follow", async (req, res) => {
 
             // if you not following them then  
             if (!user.followers.includes(req.body.userId)) {
-                await user.updateOne({ $push: { followers: req.body.userId } });
-                await curruntUser.updateOne({ $push: { followings: req.params.id } });
+                await user.updateOne({ $push: { followers: req.body.userId } },{new:true});
+                await curruntUser.updateOne({ $push: { followings: req.params.id } },{new:true});
                 res.status(200).json("user has been followed")
             } else {
                 res.status(403).json("You Already follow this user");
@@ -113,8 +131,8 @@ router.put("/:id/unfollow", async (req, res) => {
             const curruntUser = await User.findById(req.body.userId); // self user
 
             if (user.followers.includes(req.body.userId)) {
-                await user.updateOne({ $pull: { followers: req.body.userId } });
-                await curruntUser.updateOne({ $pull: { followings: req.params.id } });
+                await user.updateOne({ $pull: { followers: req.body.userId } },{new:true});
+                await curruntUser.updateOne({ $pull: { followings: req.params.id } },{new:true});
                 res.status(200).json("user has been unfollowed")
             } else {
                 res.status(403).json("You don't follow this user");

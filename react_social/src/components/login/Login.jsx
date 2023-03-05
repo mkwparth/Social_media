@@ -3,6 +3,7 @@ import "./login.css"
 import { logincall } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@mui/material";
+import { Link } from "react-router-dom"
 
 export default function Login() {
 
@@ -15,7 +16,7 @@ export default function Login() {
         e.preventDefault();
         logincall({ email: email.current.value, password: password.current.value }, dispatch)
     }
-    console.log(user);
+    
     return (
         <div className="login" >
             <div className="loginWrapper">
@@ -36,10 +37,13 @@ export default function Login() {
                                 <CircularProgress style={{ color: "white" }} size="20px" /> : "Log In"}
                         </button>
                         <span className="loginForgot">Forgot Password?</span>
-                        <button className="loginRegisterButton" disabled={isFetching}>
-                        {isFetching ?
-                                <CircularProgress style={{ color: "white" }} size="20px" /> : "Create a New Account"}
-                        </button>
+                        <Link to="/register">
+
+                            <button className="loginRegisterButton" disabled={isFetching}>
+                                {isFetching ?
+                                    <CircularProgress style={{ color: "white" }} size="20px" /> : "Create a New Account"}
+                            </button>
+                        </Link>
                     </form>
                 </div>
             </div>

@@ -22,10 +22,7 @@ function App() {
           <Route exact path="/profile/:username" element={<Profile />} />
           <Route exact path="/login" element={user ? <Navigate to="/" /> : <Login />} />
           <Route exact path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-          {/* <Home /> */}
-          {/* <Profile />   */}
-          {/* <Login/> */}
-          {/* <Register/> */}
+
         </Routes>
       </Router>
     </div>
